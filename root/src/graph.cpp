@@ -48,10 +48,18 @@ double Graph::gradient(const Node& out, const Node& in){
     return grad;
 }
 
-void Graph::start_new_recording(){
+void Graph::start_recording(){
     clear_memory();
     nodes.clear();
     edges.clear();
+}
+
+void Graph::start_recording(std::initializer_list<Node*> list){
+    start_recording();
+    for(auto& item : list){
+        item->set_graph(this);
+        nodes[item->get_uid()] = item;
+    }
 }
 
 bool Graph::has(const std::string& uid) const{

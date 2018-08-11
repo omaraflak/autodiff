@@ -21,7 +21,8 @@ class Graph {
         ~Graph();
 
         double gradient(const Node& out, const Node& in);
-        void start_new_recording();
+        void start_recording(std::initializer_list<Node*> list);
+        void start_recording();
 
         bool has(const std::string& uid) const;
         Node* get(const std::string& uid) const;
