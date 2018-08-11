@@ -8,7 +8,7 @@ Reverse automatic differentiation tool in C++.
 Node x=2, y=3;
 
 Graph graph({&x, &y});
-graph.start_new_recording();
+graph.start_recording();
 
 Node f = x*y + sin(x);
 
