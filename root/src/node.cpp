@@ -3,8 +3,7 @@
 Node::Node() : value(0), user_node(true), graph(NULL), uid(utils::uid()){}
 Node::Node(const double& val) : value(val), user_node(true), graph(NULL), uid(utils::uid()){}
 Node::Node(const double& val, const bool& user) : value(val), user_node(user), graph(NULL), uid(utils::uid()){}
-Node::Node(const Node& node) : value(node.value), user_node(node.user_node), graph(node.graph), uid(utils::uid()){}
-Node::Node(const Node& node, const std::string& uid) : value(node.value), user_node(node.user_node), graph(node.graph), uid(uid){}
+Node::Node(const Node& node) : value(node.value), user_node(node.user_node), graph(node.graph), uid(node.uid){}
 
 double Node::get_value() const      { return value; }
 bool Node::is_user_node() const     { return user_node; }

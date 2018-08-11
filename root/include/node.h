@@ -27,7 +27,6 @@ class Node {
         Node(const double& value);
         Node(const double& value, const bool& user_node);
         Node(const Node& node);
-        Node(const Node& node, const std::string& uid);
 
         double get_value() const;
         bool is_user_node() const;
