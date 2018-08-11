@@ -4,6 +4,7 @@
 #include "node.h"
 #include "edge.h"
 
+#include <vector>
 #include <map>
 
 class Node;
@@ -12,16 +13,18 @@ class Graph {
         std::map<std::string, Node*> nodes;
         std::map<std::string, std::vector<Edge*> > edges;
 
-        double gradientRecursive(Node* node);
         void clear_memory();
+        double gradientRecursive(Node* node, const std::string& stop_uid);
 
     public:
         Graph();
         Graph(std::initializer_list<Node*> list);
+        Graph(std::vector<Node>& list);
         ~Graph();
 
         double gradient(const Node& out, const Node& in);
         void start_recording(std::initializer_list<Node*> list);
+        void start_recording(std::vector<Node>& list);
         void start_recording();
 
         bool has(const std::string& uid) const;

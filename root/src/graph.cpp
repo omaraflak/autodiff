@@ -3,26 +3,15 @@
 Graph::Graph(){}
 
 Graph::Graph(std::initializer_list<Node*> list){
-    for(auto& item : list){
-        item->set_graph(this);
-        nodes[item->get_uid()] = item;
-    }
+    start_recording(list);
+}
+
+Graph::Graph(std::vector<Node>& list){
+    start_recording(list);
 }
 
 Graph::~Graph(){
     clear_memory();
-}
-
-double Graph::gradientRecursive(Node* node){
-    double sum = 0.0;
-    std::vector<Edge*> e = edges[node->get_uid()];
-    if(e.size()>0){
-        for(auto& edgePtr : e){
-            sum += edgePtr->weight*gradientRecursive(nodes[edgePtr->end_uid]);
-        }
-    } else{
-        return node->is_first_node() ? 1.0 : 0.0;
-    }
 }
 
 void Graph::clear_memory(){
@@ -39,13 +28,21 @@ void Graph::clear_memory(){
     }
 }
 
+double Graph::gradientRecursive(Node* node, const std::string& stop_uid){
+    if(node->get_uid()==stop_uid)
+        return 1.0;
+
+    double sum = 0.0;
+    for(auto& edgePtr : edges[node->get_uid()]){
+        sum += edgePtr->weight*gradientRecursive(nodes[edgePtr->end_uid], stop_uid);
+    }
+
+    return sum;
+}
+
 double Graph::gradient(const Node& out, const Node& in){
-    Node* outPtr = nodes[out.get_uid()];
     Node* inPtr = nodes[in.get_uid()];
-    outPtr->set_first_node(true);
-    double grad = gradientRecursive(inPtr);
-    outPtr->set_first_node(false);
-    return grad;
+    return gradientRecursive(inPtr, out.get_uid());
 }
 
 void Graph::start_recording(){
@@ -59,6 +56,14 @@ void Graph::start_recording(std::initializer_list<Node*> list){
     for(auto& item : list){
         item->set_graph(this);
         nodes[item->get_uid()] = item;
+    }
+}
+
+void Graph::start_recording(std::vector<Node>& list){
+    start_recording();
+    for(auto& item : list){
+        item.set_graph(this);
+        nodes[item.get_uid()] = &item;
     }
 }
 
@@ -82,16 +87,11 @@ void Graph::add(const Edge& edge){
 }
 
 std::ostream& operator<<(std::ostream& os, const Graph& graph){
-    for(const auto& pair : graph.edges){
-        std::cout << pair.first << " : " << std::endl;
-        for(const auto& edge : pair.second)
-            os << "\t" << *edge << std::endl;
-    }
-
-    std::cout << std::endl;
-
     for(const auto& pair : graph.nodes){
-        std::cout << *pair.second << std::endl;
+        os << "(" << pair.first << " = " << *pair.second << ")" << std::endl;
+        for(const auto& e : graph.edges.at(pair.first)){
+            os << "\t" << *e << std::endl;
+        }
     }
     return os;
 }
