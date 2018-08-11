@@ -6,9 +6,7 @@ Reverse automatic differentiation tool in C++.
 
 ```c++
 Node x=2, y=3;
-
 Graph graph({&x, &y});
-graph.start_recording();
 
 Node f = x*y + sin(x);
 
