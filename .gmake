@@ -1,0 +1,8 @@
+compiler = g++
+flags = -std=c++11
+
+# set the name of the executable generated with main.cpp
+main.cpp = main
+
+# add below the folders where should be generated makefiles...
+root
