@@ -13,6 +13,7 @@ class Graph {
         std::map<std::string, std::vector<Edge*> > edges;
 
         double gradientRecursive(Node* node);
+        void clear_memory();
 
     public:
         Graph();
@@ -20,6 +21,7 @@ class Graph {
         ~Graph();
 
         double gradient(const Node& out, const Node& in);
+        void start_new_recording();
 
         bool has(const std::string& uid) const;
         Node* get(const std::string& uid) const;

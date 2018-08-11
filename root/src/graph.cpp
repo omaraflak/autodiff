@@ -10,17 +10,7 @@ Graph::Graph(std::initializer_list<Node*> list){
 }
 
 Graph::~Graph(){
-    for(auto& pair : edges){
-        for(auto& edgePtr : pair.second){
-            delete edgePtr;
-        }
-    }
-
-    for(auto& pair : nodes){
-        if(!pair.second->is_user_node()){
-            delete pair.second;
-        }
-    }
+    clear_memory();
 }
 
 double Graph::gradientRecursive(Node* node){
@@ -35,6 +25,20 @@ double Graph::gradientRecursive(Node* node){
     }
 }
 
+void Graph::clear_memory(){
+    for(auto& pair : edges){
+        for(auto& edgePtr : pair.second){
+            delete edgePtr;
+        }
+    }
+
+    for(auto& pair : nodes){
+        if(!pair.second->is_user_node()){
+            delete pair.second;
+        }
+    }
+}
+
 double Graph::gradient(const Node& out, const Node& in){
     Node* outPtr = nodes[out.get_uid()];
     Node* inPtr = nodes[in.get_uid()];
@@ -44,6 +48,11 @@ double Graph::gradient(const Node& out, const Node& in){
     return grad;
 }
 
+void Graph::start_new_recording(){
+    clear_memory();
+    nodes.clear();
+    edges.clear();
+}
 
 bool Graph::has(const std::string& uid) const{
     return nodes.find(uid)!=nodes.end();
