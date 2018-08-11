@@ -50,6 +50,21 @@ double Graph::gradient(const Node& out, const Node& in){
     return gradientRecursive(inPtr, out.get_uid());
 }
 
+std::vector<double> Graph::gradient(const Node& out, const std::vector<Node>& in){
+    if(nodes.find(out.get_uid())==nodes.end())
+        throw std::invalid_argument("Graph::gradient() : output node doesn't exist in graph.");
+
+    std::vector<double> grad(in.size());
+    for(size_t i=0 ; i<in.size() ; i++){
+        if(nodes.find(in.at(i).get_uid())==nodes.end())
+            throw std::invalid_argument("Graph::gradient() : input node doesn't exist in graph.");
+
+        Node* inPtr = nodes[in.at(i).get_uid()];
+        grad[i] = gradientRecursive(inPtr, out.get_uid());
+    }
+    return grad;
+}
+
 void Graph::start_recording(){
     clear_memory();
     nodes.clear();
@@ -81,7 +96,7 @@ Node* Graph::get(const std::string& uid) const{
 }
 
 std::string Graph::create(const Node& node){
-    Node* n = new Node(node, node.get_uid());
+    Node* n = new Node(node);
     n->set_graph(this);
     n->set_user_node(false);
     nodes[n->get_uid()] = n;

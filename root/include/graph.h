@@ -24,6 +24,8 @@ class Graph {
         ~Graph();
 
         double gradient(const Node& out, const Node& in);
+        std::vector<double> gradient(const Node& out, const std::vector<Node>& in);
+        
         void start_recording(std::initializer_list<Node*> list);
         void start_recording(std::vector<Node>& list);
         void start_recording();
