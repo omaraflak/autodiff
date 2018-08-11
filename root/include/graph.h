@@ -4,6 +4,7 @@
 #include "node.h"
 #include "edge.h"
 
+#include <exception>
 #include <vector>
 #include <map>
 

@@ -41,6 +41,11 @@ double Graph::gradientRecursive(Node* node, const std::string& stop_uid){
 }
 
 double Graph::gradient(const Node& out, const Node& in){
+    if(nodes.find(out.get_uid())==nodes.end())
+        throw std::invalid_argument("Graph::gradient() : output node doesn't exist in graph.");
+    if(nodes.find(in.get_uid())==nodes.end())
+        throw std::invalid_argument("Graph::gradient() : input node doesn't exist in graph.");
+
     Node* inPtr = nodes[in.get_uid()];
     return gradientRecursive(inPtr, out.get_uid());
 }
@@ -77,6 +82,7 @@ Node* Graph::get(const std::string& uid) const{
 
 std::string Graph::create(const Node& node){
     Node* n = new Node(node, node.get_uid());
+    n->set_graph(this);
     n->set_user_node(false);
     nodes[n->get_uid()] = n;
     return n->get_uid();
@@ -89,8 +95,10 @@ void Graph::add(const Edge& edge){
 std::ostream& operator<<(std::ostream& os, const Graph& graph){
     for(const auto& pair : graph.nodes){
         os << "(" << pair.first << " = " << *pair.second << ")" << std::endl;
-        for(const auto& e : graph.edges.at(pair.first)){
-            os << "\t" << *e << std::endl;
+        if(graph.edges.find(pair.first)!=graph.edges.end()){
+            for(const auto& e : graph.edges.at(pair.first)){
+                os << "\t" << *e << std::endl;
+            }
         }
     }
     return os;
