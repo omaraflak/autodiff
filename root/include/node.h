@@ -16,7 +16,6 @@ class Node {
     private:
         double value;
         bool user_node;
-        bool first_node;
         std::string uid;
         Graph* graph;
 
@@ -34,12 +33,10 @@ class Node {
         bool is_user_node() const;
         std::string get_uid() const;
         Graph* get_graph() const;
-        bool is_first_node() const;
 
         void set_value(const double& value);
         void set_user_node(const bool& user_node);
         void set_graph(Graph* graph);
-        void set_first_node(const bool& first_node);
 
         friend Node operator+(const Node& a, const Node& b);
         friend Node operator-(const Node& a, const Node& b);

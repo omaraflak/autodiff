@@ -10,12 +10,10 @@ double Node::get_value() const      { return value; }
 bool Node::is_user_node() const     { return user_node; }
 std::string Node::get_uid() const   { return uid; }
 Graph* Node::get_graph() const      { return graph; }
-bool Node::is_first_node() const    { return first_node; }
 
 void Node::set_value(const double& value)           { this->value = value; }
 void Node::set_user_node(const bool& user_node)     { this->user_node = user_node; }
 void Node::set_graph(Graph* graph)                  { this->graph = graph; }
-void Node::set_first_node(const bool& first_node)   { this->first_node = first_node; };
 
 Node Node::binaryOperation(const Node& l, const Node& r, const std::function<BinaryOperationResult(const Node&, const Node&)>& fun){
     Graph* graph = l.graph;
