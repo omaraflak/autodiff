@@ -65,14 +65,21 @@ std::vector<double> Graph::gradient(const Node& out, const std::vector<Node>& in
     return grad;
 }
 
-void Graph::start_recording(){
+void Graph::restart_recording(){
     clear_memory();
-    nodes.clear();
     edges.clear();
+    for(auto it=nodes.begin() ; it!=nodes.end(); it++){
+        if(!it->second->is_user_node()){
+            nodes.erase(it);
+        }
+    }
 }
 
 void Graph::start_recording(std::initializer_list<Node*> list){
-    start_recording();
+    clear_memory();
+    nodes.clear();
+    edges.clear();
+
     for(auto& item : list){
         item->set_graph(this);
         nodes[item->get_uid()] = item;
@@ -80,7 +87,10 @@ void Graph::start_recording(std::initializer_list<Node*> list){
 }
 
 void Graph::start_recording(std::vector<Node>& list){
-    start_recording();
+    clear_memory();
+    nodes.clear();
+    edges.clear();
+
     for(auto& item : list){
         item.set_graph(this);
         nodes[item.get_uid()] = &item;
