@@ -5,7 +5,7 @@ Graph* Graph::instance = NULL;
 Graph::Graph(){}
 
 Graph::~Graph(){
-    clear_memory();
+    delete_pointers();
 }
 
 Graph* Graph::getInstance(){
@@ -16,7 +16,7 @@ Graph* Graph::getInstance(){
     return instance;
 }
 
-void Graph::clear_memory(){
+void Graph::delete_pointers(){
     for(auto& pair : edges){
         for(auto& edgePtr : pair.second){
             delete edgePtr;
@@ -24,12 +24,7 @@ void Graph::clear_memory(){
     }
 
     for(auto& pair : nodes){
-        if(!pair.second->is_user_node()){
-            delete pair.second;
-        } else {
-            pair.second->set_backprop(false);
-            pair.second->set_gradient(0.0);
-        }
+        delete pair.second;
     }
 }
 
@@ -37,11 +32,7 @@ double Graph::gradientRecursive(Node* node){
     double sum = 0.0;
     for(auto& edgePtr : edges[node->get_uid()]){
         Node* endPtr = nodes[edgePtr->end_uid];
-
-        // reuse gradients already calculated
         double grad = endPtr->did_backprop() ? endPtr->get_gradient() : gradientRecursive(endPtr);
-
-        // chain rule
         sum += edgePtr->weight*grad;
     }
 
@@ -110,13 +101,9 @@ std::vector<std::vector<double> > Graph::gradient(const Node& out, const std::ve
 }
 
 void Graph::new_recording(){
-    clear_memory();
+    delete_pointers();
     edges.clear();
-    for(auto it=nodes.begin() ; it!=nodes.end(); it++){
-        if(!it->second->is_user_node()){
-            nodes.erase(it);
-        }
-    }
+    nodes.clear();
 }
 
 bool Graph::has(const std::string& uid) const{
@@ -129,7 +116,6 @@ Node* Graph::get(const std::string& uid) const{
 
 std::string Graph::create(const Node& node){
     Node* n = new Node(node);
-    n->set_user_node(false);
     nodes[n->get_uid()] = n;
     return n->get_uid();
 }

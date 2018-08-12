@@ -4,21 +4,22 @@
 #include "node.h"
 #include "edge.h"
 
+#include <unordered_map>
 #include <exception>
 #include <vector>
-#include <map>
 
 class Node;
 class Graph {
     private:
         static Graph* instance;
-        std::map<std::string, Node*> nodes;
-        std::map<std::string, std::vector<Edge*> > edges;
+        std::unordered_map<std::string, Node*> nodes;
+        std::unordered_map<std::string, std::vector<Edge*> > edges;
 
         Graph();
         ~Graph();
 
         void clear_memory();
+        void delete_pointers();
         double gradientRecursive(Node* node);
 
     public:
