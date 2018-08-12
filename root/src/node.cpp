@@ -122,11 +122,15 @@ Node log(const Node& x, const Node& base){
 }
 
 Node log(const Node& x){
-    return log(x, 10);
+    return Node::unaryOperation(x, [](const Node& n){
+        return UnaryOperationResult(::log(n.value)/::log(10), 1.0/(n.value*::log(10)));
+    });
 }
 
 Node ln(const Node& x){
-    return log(x, ::exp(1));
+    return Node::unaryOperation(x, [](const Node& n){
+        return UnaryOperationResult(::log(n.value), 1.0/::log(n.value));
+    });
 }
 
 Node pow(const Node& x, const Node& base){
@@ -136,11 +140,15 @@ Node pow(const Node& x, const Node& base){
 }
 
 Node exp(const Node& x){
-    return pow(::exp(1), x);
+    return Node::unaryOperation(x, [](const Node& n){
+        return UnaryOperationResult(::exp(n.value), ::exp(n.value));
+    });
 }
 
 Node sqrt(const Node& x){
-    return pow(x, 0.5);
+    return Node::unaryOperation(x, [](const Node& n){
+        return UnaryOperationResult(::sqrt(n.value), 1.0/(2*::sqrt(x)));
+    });
 }
 
 Node abs(const Node& x){
