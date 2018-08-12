@@ -28,7 +28,6 @@ class Graph {
         std::vector<double> gradient(const Node& out, const std::vector<Node>& in);
         std::vector<std::vector<double> > gradient(const Node& out, const std::vector<std::vector<Node> >& in);
 
-        void track_variable(Node* node);
         void new_recording();
 
         bool has(const std::string& uid) const;

@@ -109,10 +109,6 @@ std::vector<std::vector<double> > Graph::gradient(const Node& out, const std::ve
     return grad;
 }
 
-void Graph::track_variable(Node* node){
-    nodes[node->get_uid()] = node;
-}
-
 void Graph::new_recording(){
     clear_memory();
     edges.clear();
