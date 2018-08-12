@@ -20,8 +20,6 @@ class Node {
         double gradient;
         bool backprop;
 
-        Graph* graph;
-
         static Node binaryOperation(const Node& l, const Node& r, const std::function<BinaryOperationResult(const Node&, const Node&)>& fun);
         static Node unaryOperation(const Node& n, const std::function<UnaryOperationResult(const Node&)>& fun);
 
@@ -36,13 +34,11 @@ class Node {
         std::string get_uid() const;
         double get_gradient() const;
         bool did_backprop() const;
-        Graph* get_graph() const;
 
         void set_value(const double& value);
         void set_user_node(const bool& user_node);
         void set_gradient(const double& gradient);
         void set_backprop(const bool& backprop);
-        void set_graph(Graph* graph);
 
         friend Node operator+(const Node& a, const Node& b);
         friend Node operator-(const Node& a, const Node& b);
