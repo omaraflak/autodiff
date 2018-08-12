@@ -17,7 +17,7 @@ double dy = graph->gradient(f, y);
 
 # Clear the computational graph
 
-You should clear the computational graph whenever the calculation expression changes (not the values).
+You should clear the computational graph whenever a new calculation happens.
 
 ```c++
 graph->new_recording();
