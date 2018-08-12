@@ -33,7 +33,7 @@ class Graph {
 
         bool has(const std::string& uid) const;
         Node* get(const std::string& uid) const;
-        std::string create(const Node& node);
+        Node* create(const Node& node);
         void add(const Edge& edge);
 
         friend std::ostream& operator<<(std::ostream& os, const Graph& graph);

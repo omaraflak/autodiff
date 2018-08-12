@@ -114,10 +114,10 @@ Node* Graph::get(const std::string& uid) const{
     return nodes.at(uid);
 }
 
-std::string Graph::create(const Node& node){
+Node* Graph::create(const Node& node){
     Node* n = new Node(node);
     nodes[n->get_uid()] = n;
-    return n->get_uid();
+    return n;
 }
 
 void Graph::add(const Edge& edge){
