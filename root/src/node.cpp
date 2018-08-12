@@ -1,18 +1,15 @@
 #include "../include/node.h"
 
-Node::Node() : value(0), user_node(true), uid(utils::uid()), backprop(false){}
-Node::Node(const double& val) : value(val), user_node(true), uid(utils::uid()), backprop(false){}
-Node::Node(const double& val, const bool& user) : value(val), user_node(user), uid(utils::uid()), backprop(false){}
-Node::Node(const Node& node) : value(node.value), user_node(node.user_node), uid(node.uid), backprop(node.backprop){}
+Node::Node() : value(0), uid(utils::uid()), backprop(false), gradient(0){}
+Node::Node(const double& val) : value(val), uid(utils::uid()), backprop(false), gradient(0){}
+Node::Node(const Node& node) : value(node.value), uid(node.uid), backprop(node.backprop), gradient(node.gradient){}
 
 double Node::get_value() const      { return value; }
-bool Node::is_user_node() const     { return user_node; }
 std::string Node::get_uid() const   { return uid; }
 double Node::get_gradient() const   { return gradient; }
 bool Node::did_backprop() const     { return backprop; }
 
 void Node::set_value(const double& value)           { this->value = value; }
-void Node::set_user_node(const bool& user_node)     { this->user_node = user_node; }
 void Node::set_gradient(const double& gradient)     { this->gradient = gradient; }
 void Node::set_backprop(const bool& backprop)       { this->backprop = backprop; }
 

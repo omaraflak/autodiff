@@ -15,7 +15,6 @@ class Graph;
 class Node {
     private:
         double value;
-        bool user_node;
         std::string uid;
         double gradient;
         bool backprop;
@@ -26,17 +25,14 @@ class Node {
     public:
         Node();
         Node(const double& value);
-        Node(const double& value, const bool& user_node);
         Node(const Node& node);
 
         double get_value() const;
-        bool is_user_node() const;
         std::string get_uid() const;
         double get_gradient() const;
         bool did_backprop() const;
 
         void set_value(const double& value);
-        void set_user_node(const bool& user_node);
         void set_gradient(const double& gradient);
         void set_backprop(const bool& backprop);
 
