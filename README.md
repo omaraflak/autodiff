@@ -20,5 +20,5 @@ double dy = graph->gradient(f, y);
 You should clear the computational graph whenever the calculation expression changes (not the values).
 
 ```c++
-graph->rew_recording();
+graph->new_recording();
 ```
