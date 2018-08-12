@@ -120,8 +120,10 @@ Node* Graph::create(const Node& node){
     return n;
 }
 
-void Graph::add(const Edge& edge){
-    edges[edge.start_uid].push_back(new Edge(edge));
+Edge* Graph::create(const Edge& edge){
+    Edge* e = new Edge(edge);
+    edges[edge.start_uid].push_back(e);
+    return e;
 }
 
 std::ostream& operator<<(std::ostream& os, const Graph& graph){

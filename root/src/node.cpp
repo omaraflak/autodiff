@@ -20,8 +20,8 @@ Node Node::binaryOperation(const Node& l, const Node& r, const std::function<Bin
     Node* lnode = graph->has(l.uid) ? graph->get(l.uid) : graph->create(l);
     Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
     Node* enode = graph->create(result);
-    graph->add(Edge(lnode->uid, enode->uid, res.left_grad));
-    graph->add(Edge(rnode->uid, enode->uid, res.right_grad));
+    graph->create(Edge(lnode->uid, enode->uid, res.left_grad));
+    graph->create(Edge(rnode->uid, enode->uid, res.right_grad));
     return result;
 }
 
@@ -29,9 +29,9 @@ Node Node::unaryOperation(const Node& n, const std::function<UnaryOperationResul
     Graph* graph = Graph::getInstance();
     UnaryOperationResult res = fun(n);
     Node result(res.value);
-    Node* node = graph->has(n.get_uid()) ? graph->get(n.get_uid()) : graph->create(n);
+    Node* node = graph->has(n.uid) ? graph->get(n.uid) : graph->create(n);
     Node* enode = graph->create(result);
-    graph->add(Edge(node->get_uid(), enode->get_uid(), res.grad));
+    graph->create(Edge(node->uid, enode->uid, res.grad));
     return result;
 }
 
