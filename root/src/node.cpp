@@ -1,17 +1,21 @@
 #include "../include/node.h"
 
-Node::Node() : value(0), user_node(true), graph(NULL), uid(utils::uid()){}
-Node::Node(const double& val) : value(val), user_node(true), graph(NULL), uid(utils::uid()){}
-Node::Node(const double& val, const bool& user) : value(val), user_node(user), graph(NULL), uid(utils::uid()){}
-Node::Node(const Node& node) : value(node.value), user_node(node.user_node), graph(node.graph), uid(node.uid){}
+Node::Node() : value(0), user_node(true), graph(NULL), uid(utils::uid()), backprop(false){}
+Node::Node(const double& val) : value(val), user_node(true), graph(NULL), uid(utils::uid()), backprop(false){}
+Node::Node(const double& val, const bool& user) : value(val), user_node(user), graph(NULL), uid(utils::uid()), backprop(false){}
+Node::Node(const Node& node) : value(node.value), user_node(node.user_node), graph(node.graph), uid(node.uid), backprop(node.backprop){}
 
 double Node::get_value() const      { return value; }
 bool Node::is_user_node() const     { return user_node; }
 std::string Node::get_uid() const   { return uid; }
+double Node::get_gradient() const   { return gradient; }
+bool Node::did_backprop() const     { return backprop; }
 Graph* Node::get_graph() const      { return graph; }
 
 void Node::set_value(const double& value)           { this->value = value; }
 void Node::set_user_node(const bool& user_node)     { this->user_node = user_node; }
+void Node::set_gradient(const double& gradient)     { this->gradient = gradient; }
+void Node::set_backprop(const bool& backprop)       { this->backprop = backprop; }
 void Node::set_graph(Graph* graph)                  { this->graph = graph; }
 
 Node Node::binaryOperation(const Node& l, const Node& r, const std::function<BinaryOperationResult(const Node&, const Node&)>& fun){
