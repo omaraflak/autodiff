@@ -1,17 +1,19 @@
 #include "../include/graph.h"
 
+Graph* Graph::instance = NULL;
+
 Graph::Graph(){}
-
-Graph::Graph(std::initializer_list<Node*> list){
-    start_recording(list);
-}
-
-Graph::Graph(std::vector<Node>& list){
-    start_recording(list);
-}
 
 Graph::~Graph(){
     clear_memory();
+}
+
+Graph* Graph::getInstance(){
+    if (instance == NULL){
+        instance = new Graph();
+    }
+
+    return instance;
 }
 
 void Graph::clear_memory(){
@@ -107,47 +109,16 @@ std::vector<std::vector<double> > Graph::gradient(const Node& out, const std::ve
     return grad;
 }
 
-void Graph::restart_recording(){
+void Graph::track_variable(Node* node){
+    nodes[node->get_uid()] = node;
+}
+
+void Graph::new_recording(){
     clear_memory();
     edges.clear();
     for(auto it=nodes.begin() ; it!=nodes.end(); it++){
         if(!it->second->is_user_node()){
             nodes.erase(it);
-        }
-    }
-}
-
-void Graph::start_recording(std::initializer_list<Node*> list){
-    clear_memory();
-    edges.clear();
-    nodes.clear();
-
-    for(auto& item : list){
-        item->set_graph(this);
-        nodes[item->get_uid()] = item;
-    }
-}
-
-void Graph::start_recording(std::vector<Node>& list){
-    clear_memory();
-    edges.clear();
-    nodes.clear();
-
-    for(auto& item : list){
-        item.set_graph(this);
-        nodes[item.get_uid()] = &item;
-    }
-}
-
-void Graph::start_recording(std::vector<std::vector<Node> >& list){
-    clear_memory();
-    edges.clear();
-    nodes.clear();
-
-    for(auto& vect : list){
-        for(auto& el : vect){
-            el.set_graph(this);
-            nodes[el.get_uid()] = &el;
         }
     }
 }
@@ -162,7 +133,6 @@ Node* Graph::get(const std::string& uid) const{
 
 std::string Graph::create(const Node& node){
     Node* n = new Node(node);
-    n->set_graph(this);
     n->set_user_node(false);
     nodes[n->get_uid()] = n;
     return n->get_uid();
