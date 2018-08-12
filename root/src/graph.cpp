@@ -84,6 +84,29 @@ std::vector<double> Graph::gradient(const Node& out, const std::vector<Node>& in
     return grad;
 }
 
+std::vector<std::vector<double> > Graph::gradient(const Node& out, const std::vector<std::vector<Node> >& in){
+    if(nodes.find(out.get_uid())==nodes.end())
+        throw std::invalid_argument("Graph::gradient() : output node doesn't exist in graph.");
+
+    // seed value
+    Node* outPtr = nodes[out.get_uid()];
+    outPtr->set_backprop(true);
+    outPtr->set_gradient(1.0);
+
+    std::vector<std::vector<double> > grad(in.size());
+    for(size_t i=0 ; i<in.size() ; i++){
+        grad[i].resize(in[i].size());
+        for(size_t j=0 ; j<in[i].size() ; j++){
+            if(nodes.find(in[i][j].get_uid())==nodes.end())
+                throw std::invalid_argument("Graph::gradient() : input node doesn't exist in graph.");
+
+            Node* inPtr = nodes[in[i][j].get_uid()];
+            grad[i][j] = gradientRecursive(inPtr);
+        }
+    }
+    return grad;
+}
+
 void Graph::restart_recording(){
     clear_memory();
     edges.clear();
@@ -113,6 +136,19 @@ void Graph::start_recording(std::vector<Node>& list){
     for(auto& item : list){
         item.set_graph(this);
         nodes[item.get_uid()] = &item;
+    }
+}
+
+void Graph::start_recording(std::vector<std::vector<Node> >& list){
+    clear_memory();
+    edges.clear();
+    nodes.clear();
+
+    for(auto& vect : list){
+        for(auto& el : vect){
+            el.set_graph(this);
+            nodes[el.get_uid()] = &el;
+        }
     }
 }
 
