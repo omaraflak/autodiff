@@ -40,6 +40,11 @@ class Node {
         void set_gradient(const double& gradient);
         void set_backprop(const bool& backprop);
 
+        Node& operator+=(const Node& n);
+        Node& operator-=(const Node& n);
+        Node& operator*=(const Node& n);
+        Node& operator/=(const Node& n);
+
         friend Node operator+(const Node& a, const Node& b);
         friend Node operator-(const Node& a, const Node& b);
         friend Node operator*(const Node& a, const Node& b);

@@ -46,6 +46,26 @@ Node Node::unaryOperation(const Node& n, const std::function<UnaryOperationResul
     return result;
 }
 
+Node& Node::operator+=(const Node& n){
+    *this = *this + n;
+    return *this;
+}
+
+Node& Node::operator-=(const Node& n){
+    *this = *this - n;
+    return *this;
+}
+
+Node& Node::operator*=(const Node& n){
+    *this = *this * n;
+    return *this;
+}
+
+Node& Node::operator/=(const Node& n){
+    *this = *this / n;
+    return *this;
+}
+
 Node operator+(const Node& a, const Node& b){
     return Node::binaryOperation(a, b, [](const Node& a, const Node& b){
         return BinaryOperationResult(a.value+b.value, 1, 1);
