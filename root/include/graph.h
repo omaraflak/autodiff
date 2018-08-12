@@ -15,7 +15,7 @@ class Graph {
         std::map<std::string, std::vector<Edge*> > edges;
 
         void clear_memory();
-        double gradientRecursive(Node* node, const std::string& stop_uid);
+        double gradientRecursive(Node* node);
 
     public:
         Graph();
