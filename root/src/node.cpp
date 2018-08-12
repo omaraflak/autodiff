@@ -142,7 +142,7 @@ Node ln(const Node& x){
 
 Node pow(const Node& x, const Node& base){
     return Node::binaryOperation(x, base, [](const Node& a, const Node& b){
-        return BinaryOperationResult(::pow(a.value, b.value), (b.value*::exp(b.value*::log(a.value)))/a.value, ::log(a.value)*::exp(b.value*::log(a.value)));
+        return BinaryOperationResult(::pow(a.value, b.value), b.value*::pow(a.value, b.value-1), ::log(a.value)*::exp(b.value*::log(a.value)));
     });
 }
 
