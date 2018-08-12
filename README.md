@@ -5,6 +5,7 @@ Reverse automatic differentiation tool in C++.
 # Example
 
 ```c++
+// should be declared before any computation
 Graph* graph = Graph::getInstance();
 
 Node x=2, y=3;
