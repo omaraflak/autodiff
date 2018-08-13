@@ -1,6 +1,6 @@
 CXX = g++
 ODIR = obj
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++11 -O3
 OBJS = $(ODIR)/graph.o $(ODIR)/node.o $(ODIR)/utils.o $(ODIR)/main.o 
 
 all : $(ODIR) $(OBJS) 
