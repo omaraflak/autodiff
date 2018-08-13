@@ -52,6 +52,9 @@ class Node {
         friend Node sinh(const Node& x);
         friend Node cosh(const Node& x);
         friend Node tanh(const Node& x);
+        friend Node asin(const Node& x);
+        friend Node acos(const Node& x);
+        friend Node atan(const Node& x);
 
         friend Node log(const Node& x, const Node& base);
         friend Node log(const Node& x);

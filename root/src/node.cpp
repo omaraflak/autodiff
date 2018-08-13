@@ -109,6 +109,24 @@ Node cosh(const Node& x){
     });
 }
 
+Node asin(const Node& x){
+    return Node::unaryOperation(x, [](const Node& n){
+        return UnaryOperationResult(::asin(n.value), 1.0/(::sqrt(1-n.value*n.value)));
+    });
+}
+
+Node acos(const Node& x){
+    return Node::unaryOperation(x, [](const Node& n){
+        return UnaryOperationResult(::acos(n.value), -1.0/(::sqrt(1-n.value*n.value)));
+    });
+}
+
+Node atan(const Node& x){
+    return Node::unaryOperation(x, [](const Node& n){
+        return UnaryOperationResult(::atan(n.value), 1.0/(1+n.value*n.value));
+    });
+}
+
 Node tanh(const Node& x){
     return Node::unaryOperation(x, [](const Node& n){
         return UnaryOperationResult(::tanh(n.value), 1.0-::pow(::tanh(n.value), 2));
@@ -147,7 +165,7 @@ Node exp(const Node& x){
 
 Node sqrt(const Node& x){
     return Node::unaryOperation(x, [](const Node& n){
-        return UnaryOperationResult(::sqrt(n.value), 1.0/(2*::sqrt(x)));
+        return UnaryOperationResult(::sqrt(n.value), 1.0/(2*::sqrt(n.value)));
     });
 }
 
