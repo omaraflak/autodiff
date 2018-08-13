@@ -18,13 +18,16 @@ class Node {
         double gradient;
         bool backprop;
 
-        template <typename BINOP> static Node binaryOperation(const Node& l, const Node& r, const BINOP& fun);
-        template <typename UNOP> static Node unaryOperation(const Node& n, const UNOP& fun);
+        template <typename BINOP>
+        static Node binaryOperation(const Node& l, const Node& r, const BINOP& fun);
+
+        template <typename UNOP>
+        static Node unaryOperation(const Node& n, const UNOP& fun);
 
     public:
         Node();
         Node(const double& value);
-        Node(const Node& node);
+        Node(const Node& node, const bool& copy_uid=false);
 
         double get_value() const;
         std::string get_uid() const;
@@ -35,15 +38,15 @@ class Node {
         void set_gradient(const double& gradient);
         void set_backprop(const bool& backprop);
 
-        Node& operator+=(const Node& n);
-        Node& operator-=(const Node& n);
-        Node& operator*=(const Node& n);
-        Node& operator/=(const Node& n);
+        Node& operator+=(const Node& r);
+        Node& operator-=(const Node& r);
+        Node& operator*=(const Node& r);
+        Node& operator/=(const Node& r);
 
-        friend Node operator+(const Node& a, const Node& b);
-        friend Node operator-(const Node& a, const Node& b);
-        friend Node operator*(const Node& a, const Node& b);
-        friend Node operator/(const Node& a, const Node& b);
+        friend Node operator+(const Node& l, const Node& r);
+        friend Node operator-(const Node& l, const Node& r);
+        friend Node operator*(const Node& l, const Node& r);
+        friend Node operator/(const Node& l, const Node& r);
 
         friend Node sin(const Node& x);
         friend Node cos(const Node& x);

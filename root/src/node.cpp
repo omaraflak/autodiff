@@ -2,7 +2,7 @@
 
 Node::Node() : value(0), uid(utils::uid()), backprop(false), gradient(0){}
 Node::Node(const double& val) : value(val), uid(utils::uid()), backprop(false), gradient(0){}
-Node::Node(const Node& node) : value(node.value), uid(node.uid), backprop(node.backprop), gradient(node.gradient){}
+Node::Node(const Node& node, const bool& copy_uid) : value(node.value), uid(copy_uid?node.uid:utils::uid()), backprop(node.backprop), gradient(node.gradient){}
 
 double Node::get_value() const      { return value; }
 std::string Node::get_uid() const   { return uid; }
@@ -15,7 +15,7 @@ void Node::set_backprop(const bool& backprop)       { this->backprop = backprop;
 
 template <typename BINOP>
 Node Node::binaryOperation(const Node& l, const Node& r, const BINOP& fun){
-    Graph* graph = Graph::getInstance();
+    Graph* graph = Graph::getInstanceNoCheck();
     BinaryOperationResult res = fun(l, r);
     Node result(res.value);
     Node* lnode = graph->has(l.uid) ? graph->get(l.uid) : graph->create(l);
@@ -24,12 +24,11 @@ Node Node::binaryOperation(const Node& l, const Node& r, const BINOP& fun){
     graph->create(Edge(lnode->uid, enode->uid, res.left_grad));
     graph->create(Edge(rnode->uid, enode->uid, res.right_grad));
     return result;
-
 }
 
 template <typename UNOP>
 Node Node::unaryOperation(const Node& n, const UNOP& fun){
-    Graph* graph = Graph::getInstance();
+    Graph* graph = Graph::getInstanceNoCheck();
     UnaryOperationResult res = fun(n);
     Node result(res.value);
     Node* node = graph->has(n.uid) ? graph->get(n.uid) : graph->create(n);
@@ -38,48 +37,96 @@ Node Node::unaryOperation(const Node& n, const UNOP& fun){
     return result;
 }
 
-Node& Node::operator+=(const Node& n){
-    *this = *this + n;
+Node& Node::operator+=(const Node& r){
+    Graph* graph = Graph::getInstanceNoCheck();
+    Node result(this->value+r.value);
+    Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
+    Node* enode = graph->create(result);
+    graph->create(Edge(this->uid, enode->uid, 1));
+    graph->create(Edge(rnode->uid, enode->uid, 1));
+    this->value = result.value;
+    this->uid = enode->uid;
     return *this;
 }
 
-Node& Node::operator-=(const Node& n){
-    *this = *this - n;
+Node& Node::operator-=(const Node& r){
+    Graph* graph = Graph::getInstanceNoCheck();
+    Node result(this->value-r.value);
+    Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
+    Node* enode = graph->create(result);
+    graph->create(Edge(this->uid, enode->uid, 1));
+    graph->create(Edge(rnode->uid, enode->uid, -1));
+    this->value = result.value;
+    this->uid = enode->uid;
     return *this;
 }
 
-Node& Node::operator*=(const Node& n){
-    *this = *this * n;
+Node& Node::operator*=(const Node& r){
+    Graph* graph = Graph::getInstanceNoCheck();
+    Node result(this->value*r.value);
+    Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
+    Node* enode = graph->create(result);
+    graph->create(Edge(this->uid, enode->uid, r.value));
+    graph->create(Edge(rnode->uid, enode->uid, this->value));
+    this->value = result.value;
+    this->uid = enode->uid;
     return *this;
 }
 
-Node& Node::operator/=(const Node& n){
-    *this = *this / n;
+Node& Node::operator/=(const Node& r){
+    Graph* graph = Graph::getInstanceNoCheck();
+    Node result(this->value/r.value);
+    Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
+    Node* enode = graph->create(result);
+    graph->create(Edge(this->uid, enode->uid, 1.0/r.value));
+    graph->create(Edge(rnode->uid, enode->uid, -1.0*this->value/(r.value*r.value)));
+    this->value = result.value;
+    this->uid = enode->uid;
     return *this;
 }
 
-Node operator+(const Node& a, const Node& b){
-    return Node::binaryOperation(a, b, [](const Node& a, const Node& b){
-        return BinaryOperationResult(a.value+b.value, 1, 1);
-    });
+Node operator+(const Node& l, const Node& r){
+    Graph* graph = Graph::getInstanceNoCheck();
+    Node result(l.value+r.value);
+    Node* lnode = graph->has(l.uid) ? graph->get(l.uid) : graph->create(l);
+    Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
+    Node* enode = graph->create(result);
+    graph->create(Edge(lnode->uid, enode->uid, 1));
+    graph->create(Edge(rnode->uid, enode->uid, 1));
+    return result;
 }
 
-Node operator-(const Node& a, const Node& b){
-    return Node::binaryOperation(a, b, [](const Node& a, const Node& b){
-        return BinaryOperationResult(a.value-b.value, 1, -1);
-    });
+Node operator-(const Node& l, const Node& r){
+    Graph* graph = Graph::getInstanceNoCheck();
+    Node result(l.value-r.value);
+    Node* lnode = graph->has(l.uid) ? graph->get(l.uid) : graph->create(l);
+    Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
+    Node* enode = graph->create(result);
+    graph->create(Edge(lnode->uid, enode->uid, 1));
+    graph->create(Edge(rnode->uid, enode->uid, -1));
+    return result;
 }
 
-Node operator*(const Node& a, const Node& b){
-    return Node::binaryOperation(a, b, [](const Node& a, const Node& b){
-        return BinaryOperationResult(a.value*b.value, b.value, a.value);
-    });
+Node operator*(const Node& l, const Node& r){
+    Graph* graph = Graph::getInstanceNoCheck();
+    Node result(l.value*r.value);
+    Node* lnode = graph->has(l.uid) ? graph->get(l.uid) : graph->create(l);
+    Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
+    Node* enode = graph->create(result);
+    graph->create(Edge(lnode->uid, enode->uid, r.value));
+    graph->create(Edge(rnode->uid, enode->uid, l.value));
+    return result;
 }
 
-Node operator/(const Node& a, const Node& b){
-    return Node::binaryOperation(a, b, [](const Node& a, const Node& b){
-        return BinaryOperationResult(a.value/b.value, 1.0/b.value, -1.0*a.value/(b.value*b.value));
-    });
+Node operator/(const Node& l, const Node& r){
+    Graph* graph = Graph::getInstanceNoCheck();
+    Node result(l.value/r.value);
+    Node* lnode = graph->has(l.uid) ? graph->get(l.uid) : graph->create(l);
+    Node* rnode = graph->has(r.uid) ? graph->get(r.uid) : graph->create(r);
+    Node* enode = graph->create(result);
+    graph->create(Edge(lnode->uid, enode->uid, 1.0/r.value));
+    graph->create(Edge(rnode->uid, enode->uid, -1.0*l.value/(r.value*r.value)));
+    return result;
 }
 
 Node sin(const Node& x){
