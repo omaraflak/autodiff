@@ -13,7 +13,8 @@ void Node::set_value(const double& value)           { this->value = value; }
 void Node::set_gradient(const double& gradient)     { this->gradient = gradient; }
 void Node::set_backprop(const bool& backprop)       { this->backprop = backprop; }
 
-Node Node::binaryOperation(const Node& l, const Node& r, const std::function<BinaryOperationResult(const Node&, const Node&)>& fun){
+template <typename BINOP>
+Node Node::binaryOperation(const Node& l, const Node& r, const BINOP& fun){
     Graph* graph = Graph::getInstance();
     BinaryOperationResult res = fun(l, r);
     Node result(res.value);
@@ -23,9 +24,11 @@ Node Node::binaryOperation(const Node& l, const Node& r, const std::function<Bin
     graph->create(Edge(lnode->uid, enode->uid, res.left_grad));
     graph->create(Edge(rnode->uid, enode->uid, res.right_grad));
     return result;
+
 }
 
-Node Node::unaryOperation(const Node& n, const std::function<UnaryOperationResult(const Node&)>& fun){
+template <typename UNOP>
+Node Node::unaryOperation(const Node& n, const UNOP& fun){
     Graph* graph = Graph::getInstance();
     UnaryOperationResult res = fun(n);
     Node result(res.value);

@@ -1,7 +1,6 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include <functional>
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -19,8 +18,8 @@ class Node {
         double gradient;
         bool backprop;
 
-        static Node binaryOperation(const Node& l, const Node& r, const std::function<BinaryOperationResult(const Node&, const Node&)>& fun);
-        static Node unaryOperation(const Node& n, const std::function<UnaryOperationResult(const Node&)>& fun);
+        template <typename BINOP> static Node binaryOperation(const Node& l, const Node& r, const BINOP& fun);
+        template <typename UNOP> static Node unaryOperation(const Node& n, const UNOP& fun);
 
     public:
         Node();
