@@ -24,6 +24,7 @@ class Graph {
 
     public:
         static Graph* getInstance();
+        static Graph* getInstanceNoCheck();
 
         double gradient(const Node& out, const Node& in);
         std::vector<double> gradient(const Node& out, const std::vector<Node>& in);

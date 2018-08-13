@@ -16,6 +16,10 @@ Graph* Graph::getInstance(){
     return instance;
 }
 
+Graph* Graph::getInstanceNoCheck(){
+    return instance;
+}
+
 void Graph::delete_pointers(){
     for(auto& pair : edges){
         for(auto& edgePtr : pair.second){
@@ -115,7 +119,7 @@ Node* Graph::get(const std::string& uid) const{
 }
 
 Node* Graph::create(const Node& node){
-    Node* n = new Node(node);
+    Node* n = new Node(node, true);
     nodes[n->get_uid()] = n;
     return n;
 }
