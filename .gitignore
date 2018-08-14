@@ -1,3 +1,4 @@
 .gmake
 obj/
 bin/
+lib/
