@@ -2,7 +2,16 @@
 
 Reverse automatic differentiation tool in C++.
 
-# Install
+# Examples
+
+Examples you may find helpful.
+
+* [Neural Network](https://github.com/OmarAflak/autodiff/blob/master/examples/src/ann.cpp)
+* [Gradient Descent](https://github.com/OmarAflak/autodiff/blob/master/examples/src/gradient_descent.cpp)
+* [Derivatives](https://github.com/OmarAflak/autodiff/blob/master/examples/src/simple.cpp)
+* [Gradient](https://github.com/OmarAflak/autodiff/blob/master/examples/src/gradient.cpp)
+
+# Install & Use
 
 Normal make sequence
 
@@ -11,9 +20,7 @@ make
 make install
 ```
 
-# Use
-
-In a main.cpp file :
+Then in a new `main.cpp` file :
 
 ```c++
 #include <iostream>
@@ -37,7 +44,7 @@ int main(int argc, char const *argv[]) {
 Compile it :
 
 ```
-g++ main.cpp -o main -std=c++11 -lautodiff 
+g++ main.cpp -o main -std=c++11 -lautodiff
 ```
 
 # Clear the computational graph
