@@ -4,29 +4,11 @@
 #include <ctime>
 #include <chrono>
 
+#include "vectmath.h"
 #include "../../root/include/graph.h"
 
 template <class T>
-std::vector<std::vector<T> > dot(const std::vector<std::vector<T> > & a, const std::vector<std::vector<T> >& b){
-    assert(a[0].size()==b.size());
-
-    T w=0;
-    std::vector<std::vector<T> > result(a.size(), std::vector<T>(b[0].size()));
-    for (int i=0 ; i<a.size() ; i++){
-        for (int j=0 ; j<b[0].size() ; j++){
-            for (int h=0 ; h<b.size() ; h++){
-                w += a[i][h]*b[h][j];
-            }
-            result[i][j] = w;
-            w=0;
-        }
-    }
-
-    return result;
-}
-
-template <class T>
-std::vector<std::vector<T> > getRandom(const int& height, const int& width, T t){
+std::vector<std::vector<T> > get_random_matrix(const int& height, const int& width, T t){
     std::vector<std::vector<T> > mat(height, std::vector<T>(width));
     for(auto& v : mat){
         for(auto& e : v){
@@ -42,10 +24,10 @@ int main(int argc, char const *argv[]) {
     Graph* graph = Graph::getInstance();
 
     int size = 30;
-    std::vector<std::vector<double> > a = getRandom(size, size, double());
-    std::vector<std::vector<double> > b = getRandom(size, size, double());
-    std::vector<std::vector<Node> > c = getRandom(size, size, Node());
-    std::vector<std::vector<Node> > d = getRandom(size, size, Node());
+    std::vector<std::vector<double> > a = get_random_matrix(size, size, double());
+    std::vector<std::vector<double> > b = get_random_matrix(size, size, double());
+    std::vector<std::vector<Node> > c = get_random_matrix(size, size, Node());
+    std::vector<std::vector<Node> > d = get_random_matrix(size, size, Node());
 
     std::cout << std::fixed;
     std::cout << std::setprecision(10);
