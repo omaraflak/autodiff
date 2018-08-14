@@ -12,8 +12,8 @@ class Node;
 class Graph {
     private:
         static Graph* instance;
-        std::unordered_map<std::string, Node*> nodes;
-        std::unordered_map<std::string, std::vector<Edge*> > edges;
+        std::unordered_map<unsigned long int, Node*> nodes;
+        std::unordered_map<unsigned long int, std::vector<Edge*> > edges;
 
         Graph();
         ~Graph();
@@ -32,8 +32,8 @@ class Graph {
 
         void new_recording();
 
-        bool has(const std::string& uid) const;
-        Node* get(const std::string& uid) const;
+        bool has(const unsigned long int& uid) const;
+        Node* get(const unsigned long int& uid) const;
         Node* create(const Node& node);
         Edge* create(const Edge& edge);
 

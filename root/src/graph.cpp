@@ -110,11 +110,11 @@ void Graph::new_recording(){
     nodes.clear();
 }
 
-bool Graph::has(const std::string& uid) const{
+bool Graph::has(const unsigned long int& uid) const{
     return nodes.find(uid)!=nodes.end();
 }
 
-Node* Graph::get(const std::string& uid) const{
+Node* Graph::get(const unsigned long int& uid) const{
     return nodes.at(uid);
 }
 

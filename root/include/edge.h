@@ -5,11 +5,11 @@
 #include <string>
 
 struct Edge {
-    std::string start_uid;
-    std::string end_uid;
+    unsigned long int start_uid;
+    unsigned long int end_uid;
     double weight;
 
-    Edge(const std::string& start_uid, const std::string& end_uid, const double& weight){
+    Edge(const unsigned long int& start_uid, const unsigned long int& end_uid, const double& weight){
         this->start_uid = start_uid;
         this->end_uid = end_uid;
         this->weight = weight;
