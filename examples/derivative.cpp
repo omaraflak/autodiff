@@ -2,6 +2,7 @@
 #include "../root/include/graph.h"
 
 int main(int argc, char const *argv[]) {
+    // Should be declared before any calculation
     Graph* graph = Graph::getInstance();
 
     Node x=2, y=3;

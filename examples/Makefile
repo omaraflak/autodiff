@@ -1,14 +1,17 @@
 CXX = g++
 ODIR = obj
 CXXFLAGS = -std=c++11 -O3
-OBJS = $(ODIR)/speed.o $(ODIR)/simple.o 
+OBJS = $(ODIR)/speed.o $(ODIR)/derivative.o $(ODIR)/ann.o 
 
 all : $(ODIR) $(OBJS) 
 
 $(ODIR)/speed.o : speed.cpp ../root/include/graph.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-$(ODIR)/simple.o : simple.cpp ../root/include/graph.h 
+$(ODIR)/derivative.o : derivative.cpp ../root/include/graph.h 
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
+
+$(ODIR)/ann.o : neural-network/ann.cpp neural-network/vectmath.h ../root/include/graph.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 $(ODIR) : 
