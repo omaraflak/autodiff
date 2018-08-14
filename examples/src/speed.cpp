@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]) {
     std::cout << std::fixed;
     std::cout << std::setprecision(10);
 
-    std::cout << "Running with double... ";
+    std::cout << "Running with double...\t";
     std::cout.flush();
     auto start = std::chrono::high_resolution_clock::now();
     std::vector<std::vector<double> > ab = dot(a, b);
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[]) {
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Elapsed time: " << elapsed.count() << " s" << std::endl;
 
-    std::cout << "Running with Node... ";
+    std::cout << "Running with Node...\t";
     std::cout.flush();
     start = std::chrono::high_resolution_clock::now();
     std::vector<std::vector<Node> > cd = dot(c, d);
