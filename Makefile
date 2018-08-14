@@ -3,19 +3,25 @@ BIN = bin
 LIB = lib
 LIB_NAME = autodiff
 OBJS_SPEED = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/speed.o
-OBJS_SIMPLE = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/simple.o
+OBJS_DERIVATIVE = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/derivative.o
+OBJS_ANN = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/ann.o
 
-all : speed simple
+all : speed derivative ann
 
 speed : $(BIN) root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
-	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
 	$(MAKE) -C examples obj obj/speed.o
+	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
 	$(CXX) -o $(BIN)/speed $(OBJS_SPEED) $(LIBS)
 
-simple : $(BIN) root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+derivative : $(BIN) root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+	$(MAKE) -C examples obj obj/derivative.o
 	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
-	$(MAKE) -C examples obj obj/simple.o
-	$(CXX) -o $(BIN)/simple $(OBJS_SIMPLE) $(LIBS)
+	$(CXX) -o $(BIN)/derivative $(OBJS_DERIVATIVE) $(LIBS)
+
+ann : $(BIN) examples/neural-network/vectmath.h root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+	$(MAKE) -C examples obj obj/ann.o
+	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
+	$(CXX) -o $(BIN)/ann $(OBJS_ANN) $(LIBS)
 
 $(BIN) :
 	if [ ! -d $(BIN) ]; then mkdir $(BIN); fi
@@ -36,6 +42,7 @@ install : $(LIB)
 
 .PHONY : all
 .PHONY : speed
-.PHONY : simple
+.PHONY : derivative
+.PHONY : ann
 .PHONY : clean
 .PHONY : install
