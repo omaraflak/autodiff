@@ -4,10 +4,10 @@ Node::Node() : value(0), uid(utils::uid()), backprop(false), gradient(0){}
 Node::Node(const double& val) : value(val), uid(utils::uid()), backprop(false), gradient(0){}
 Node::Node(const Node& node, const bool& copy_uid) : value(node.value), uid(copy_uid?node.uid:utils::uid()), backprop(node.backprop), gradient(node.gradient){}
 
-double Node::get_value() const      { return value; }
-std::string Node::get_uid() const   { return uid; }
-double Node::get_gradient() const   { return gradient; }
-bool Node::did_backprop() const     { return backprop; }
+double Node::get_value() const            { return value; }
+double Node::get_gradient() const         { return gradient; }
+bool Node::did_backprop() const           { return backprop; }
+unsigned long int Node::get_uid() const   { return uid; }
 
 void Node::set_value(const double& value)           { this->value = value; }
 void Node::set_gradient(const double& gradient)     { this->gradient = gradient; }

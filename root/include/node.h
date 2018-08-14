@@ -14,9 +14,9 @@ class Graph;
 class Node {
     private:
         double value;
-        std::string uid;
         double gradient;
         bool backprop;
+        unsigned long int uid;
 
         template <typename BINOP>
         static Node binaryOperation(const Node& l, const Node& r, const BINOP& fun);
@@ -30,9 +30,9 @@ class Node {
         Node(const Node& node, const bool& copy_uid=false);
 
         double get_value() const;
-        std::string get_uid() const;
         double get_gradient() const;
         bool did_backprop() const;
+        unsigned long int get_uid() const;
 
         void set_value(const double& value);
         void set_gradient(const double& gradient);
