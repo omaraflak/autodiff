@@ -1,17 +1,23 @@
 CXX = g++
 ODIR = obj
 CXXFLAGS = -std=c++11 -O3
-OBJS = $(ODIR)/speed.o $(ODIR)/derivative.o $(ODIR)/ann.o 
+OBJS = $(ODIR)/gradient_descent.o $(ODIR)/ann.o $(ODIR)/gradient.o $(ODIR)/speed.o $(ODIR)/simple.o 
 
 all : $(ODIR) $(OBJS) 
+
+$(ODIR)/gradient_descent.o : src/gradient_descent.cpp src/vectmath.h ../root/include/graph.h 
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
+
+$(ODIR)/ann.o : src/ann.cpp src/vectmath.h ../root/include/graph.h 
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
+
+$(ODIR)/gradient.o : src/gradient.cpp src/vectmath.h ../root/include/graph.h 
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 $(ODIR)/speed.o : src/speed.cpp ../root/include/graph.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-$(ODIR)/derivative.o : src/derivative.cpp ../root/include/graph.h 
-	$(CXX) -c $< -o $@ $(CXXFLAGS)
-
-$(ODIR)/ann.o : src/neural-network/ann.cpp src/neural-network/vectmath.h ../root/include/graph.h 
+$(ODIR)/simple.o : src/simple.cpp ../root/include/graph.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 $(ODIR) : 

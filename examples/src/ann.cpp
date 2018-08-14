@@ -2,7 +2,7 @@
 #include <ctime>
 
 #include "vectmath.h"
-#include "../../../root/include/graph.h"
+#include "../../root/include/graph.h"
 
 typedef std::vector<Node> Vector;
 typedef std::vector<Vector> Matrix;
