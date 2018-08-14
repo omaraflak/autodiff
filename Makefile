@@ -18,7 +18,7 @@ derivative : $(BIN) root/include/edge.h root/include/binary_operation_result.h r
 	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
 	$(CXX) -o $(BIN)/derivative $(OBJS_DERIVATIVE) $(LIBS)
 
-ann : $(BIN) examples/neural-network/vectmath.h root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+ann : $(BIN) examples/src/neural-network/vectmath.h root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
 	$(MAKE) -C examples obj obj/ann.o
 	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
 	$(CXX) -o $(BIN)/ann $(OBJS_ANN) $(LIBS)

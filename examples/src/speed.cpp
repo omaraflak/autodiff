@@ -4,7 +4,7 @@
 #include <ctime>
 #include <chrono>
 
-#include "../root/include/graph.h"
+#include "../../root/include/graph.h"
 
 template <class T>
 std::vector<std::vector<T> > dot(const std::vector<std::vector<T> > & a, const std::vector<std::vector<T> >& b){
@@ -38,7 +38,7 @@ std::vector<std::vector<T> > getRandom(const int& height, const int& width, T t)
 
 int main(int argc, char const *argv[]) {
     srand(time(0));
-    
+
     Graph* graph = Graph::getInstance();
 
     int size = 30;

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../root/include/graph.h"
+#include "../../root/include/graph.h"
 
 int main(int argc, char const *argv[]) {
     // Should be declared before any calculation
