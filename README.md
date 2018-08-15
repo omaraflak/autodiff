@@ -51,3 +51,37 @@ You should clear the computational graph whenever a new calculation happens.
 ```c++
 Graph::getInstance()->new_recording();
 ```
+
+# Operations Supported
+
+### Trigonometric
+
+* sin(const Node& x)
+* cos(const Node& x)
+* tan(const Node& x)
+* asin(const Node& x)
+* acos(const Node& x)
+* atan(const Node& x)
+
+### Hyperbolic
+* sinh(const Node& x)
+* cosh(const Node& x)
+* tanh(const Node& x)
+
+### Exponential and logarithmic
+
+* log(const Node& x, const Node& base)
+* log10(const Node& x)
+* ln(const Node& x)
+* exp(const Node& x)
+
+### Power
+
+* pow(const Node& x, const Node& p)
+* sqrt(const Node& x)
+
+### Others
+
+* abs(const Node& x)
+* min(const Node& l, const Node& r)
+* max(const Node& l, const Node& r)
