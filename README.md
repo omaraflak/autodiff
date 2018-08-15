@@ -64,6 +64,7 @@ Graph::getInstance()->new_recording();
 * atan(const Node& x)
 
 ### Hyperbolic
+
 * sinh(const Node& x)
 * cosh(const Node& x)
 * tanh(const Node& x)
