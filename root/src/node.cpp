@@ -117,6 +117,26 @@ Node& Node::operator/=(const Node& r){
     return *this;
 }
 
+bool operator==(const Node& l, const Node& r){
+    return l.value==r.value;
+}
+
+bool operator<(const Node& l, const Node& r){
+    return l.value<r.value;
+}
+
+bool operator>(const Node& l, const Node& r){
+    return l.value>r.value;
+}
+
+bool operator<=(const Node& l, const Node& r){
+    return l.value<=r.value;
+}
+
+bool operator>=(const Node& l, const Node& r){
+    return l.value>=r.value;
+}
+
 Node sin(const Node& x){
     return Node::unary_operation(x, [](const Node& n){
         return UnaryOperationResult(::sin(n.value), ::cos(n.value));

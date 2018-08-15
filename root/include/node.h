@@ -40,6 +40,12 @@ class Node {
         Node& operator*=(const Node& r);
         Node& operator/=(const Node& r);
 
+        friend bool operator==(const Node& l, const Node& r);
+        friend bool operator<(const Node& l, const Node& r);
+        friend bool operator>(const Node& l, const Node& r);
+        friend bool operator<=(const Node& l, const Node& r);
+        friend bool operator>=(const Node& l, const Node& r);
+
         friend Node sin(const Node& x);
         friend Node cos(const Node& x);
         friend Node tan(const Node& x);
