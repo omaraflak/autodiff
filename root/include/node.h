@@ -13,17 +13,14 @@ class Node {
         double value;
         long int uid;
 
-        template <typename Fun>
-        static Node unary_operation(const Node& n, const Fun& fun);
-
-        template <typename Fun>
-        static Node binary_operation(const Node& l, const Node& r, const Fun& fun);
-
         double gradient_recursive(Graph* graph, const long int& current_uid, const long int& stop_uid) const;
 
     public:
         Node(const double& value=0);
         Node(const Node& node);
+
+        static Node unary_operation(const Node& n, UnaryOperationResult (*)(const double&));
+        static Node binary_operation(const Node& l, const Node& r, BinaryOperationResult (*)(const double&, const double&));
 
         double gradient(const Node& node) const;
         std::vector<double> gradient(const std::vector<Node>& nodes) const;
