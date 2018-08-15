@@ -5,8 +5,9 @@
 #include <iostream>
 
 #include "graph.h"
-#include "bor.h"
-#include "uor.h"
+#include "mor.h"
+#include "dor.h"
+#include "por.h"
 
 class Node {
     private:
@@ -19,8 +20,9 @@ class Node {
         Node(const double& value=0);
         Node(const Node& node);
 
-        static Node unary_operation(const Node& n, UnaryOperationResult (*)(const double&));
-        static Node binary_operation(const Node& l, const Node& r, BinaryOperationResult (*)(const double&, const double&));
+        static Node monadic_operation(const Node& n, MonadicOperationResult (*)(const double&));
+        static Node dyadic_operation(const Node& l, const Node& r, DyadicOperationResult (*)(const double&, const double&));
+        static Node polyadic_operation(const std::vector<Node>& nodes, PolyadicOperationResult (*)(const std::vector<double>&));
 
         double gradient(const Node& node) const;
         std::vector<double> gradient(const std::vector<Node>& nodes) const;

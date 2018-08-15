@@ -50,16 +50,16 @@ std::vector<std::vector<double> > Node::gradient(const std::vector<std::vector<N
     return grad;
 }
 
-Node Node::unary_operation(const Node& n, UnaryOperationResult (*fun)(const double&)){
-    UnaryOperationResult res = fun(n.value);
+Node Node::monadic_operation(const Node& n, MonadicOperationResult (*fun)(const double&)){
+    MonadicOperationResult res = fun(n.value);
     Node result(res.value);
     Graph* graph = Graph::getInstance();
     graph->connect(result.uid, std::make_pair(res.grad, n.uid));
     return result;
 }
 
-Node Node::binary_operation(const Node& left, const Node& right, BinaryOperationResult (*fun)(const double&, const double&)){
-    BinaryOperationResult res = fun(left.value, right.value);
+Node Node::dyadic_operation(const Node& left, const Node& right, DyadicOperationResult (*fun)(const double&, const double&)){
+    DyadicOperationResult res = fun(left.value, right.value);
     Node result(res.value);
     Graph* graph = Graph::getInstance();
     graph->connect(result.uid, std::make_pair(res.left_grad, left.uid));
@@ -67,27 +67,41 @@ Node Node::binary_operation(const Node& left, const Node& right, BinaryOperation
     return result;
 }
 
+Node Node::polyadic_operation(const std::vector<Node>& nodes, PolyadicOperationResult (*fun)(const std::vector<double>&)){
+    std::vector<double> values(nodes.size());
+    for(size_t i=0 ; i<nodes.size() ; i++){
+        values[i] = nodes[i].value;
+    }
+    PolyadicOperationResult res = fun(values);
+    Node result(res.value);
+    Graph* graph = Graph::getInstance();
+    for(size_t i=0 ; i<nodes.size() ; i++){
+        graph->connect(result.uid, std::make_pair(res.gradients[i], nodes[i].uid));
+    }
+    return result;
+}
+
 Node operator+(const Node& left, const Node& right){
-    return Node::binary_operation(left, right, [](const double& l, const double& r){
-        return BinaryOperationResult(l+r, 1.0, 1.0);
+    return Node::dyadic_operation(left, right, [](const double& l, const double& r){
+        return DyadicOperationResult(l+r, 1.0, 1.0);
     });
 }
 
 Node operator-(const Node& left, const Node& right){
-    return Node::binary_operation(left, right, [](const double& l, const double& r){
-        return BinaryOperationResult(l-r, 1.0, -1.0);
+    return Node::dyadic_operation(left, right, [](const double& l, const double& r){
+        return DyadicOperationResult(l-r, 1.0, -1.0);
     });
 }
 
 Node operator*(const Node& left, const Node& right){
-    return Node::binary_operation(left, right, [](const double& l, const double& r){
-        return BinaryOperationResult(l*r, r, l);
+    return Node::dyadic_operation(left, right, [](const double& l, const double& r){
+        return DyadicOperationResult(l*r, r, l);
     });
 }
 
 Node operator/(const Node& left, const Node& right){
-    return Node::binary_operation(left, right, [](const double& l, const double& r){
-        return BinaryOperationResult(l/r, 1.0/r, -1.0*l/(r*r));
+    return Node::dyadic_operation(left, right, [](const double& l, const double& r){
+        return DyadicOperationResult(l/r, 1.0/r, -1.0*l/(r*r));
     });
 }
 
@@ -132,126 +146,126 @@ bool operator>=(const Node& left, const Node& right){
 }
 
 Node sin(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::sin(n), ::cos(n));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::sin(n), ::cos(n));
     });
 }
 
 Node cos(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::cos(n), -1.0*::sin(n));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::cos(n), -1.0*::sin(n));
     });
 }
 
 Node tan(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::tan(n), 1.0/::pow(::cos(n), 2));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::tan(n), 1.0/::pow(::cos(n), 2));
     });
 }
 
 Node sinh(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::sinh(n), ::cosh(n));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::sinh(n), ::cosh(n));
     });
 }
 
 Node cosh(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::cosh(n), ::sinh(n));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::cosh(n), ::sinh(n));
     });
 }
 
 Node asin(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::asin(n), 1.0/(::sqrt(1-n*n)));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::asin(n), 1.0/(::sqrt(1-n*n)));
     });
 }
 
 Node acos(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::acos(n), -1.0/(::sqrt(1-n*n)));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::acos(n), -1.0/(::sqrt(1-n*n)));
     });
 }
 
 Node atan(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::atan(n), 1.0/(1+n*n));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::atan(n), 1.0/(1+n*n));
     });
 }
 
 Node tanh(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::tanh(n), 1.0-::pow(::tanh(n), 2));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::tanh(n), 1.0-::pow(::tanh(n), 2));
     });
 }
 
 Node log(const Node& x, const Node& base){
-    return Node::binary_operation(x, base, [](const double& a, const double& b){
-        return BinaryOperationResult(::log(a)/::log(b), 1.0/(a*::log(b)), -1.0*::log(a)/(b*::log(b)));
+    return Node::dyadic_operation(x, base, [](const double& a, const double& b){
+        return DyadicOperationResult(::log(a)/::log(b), 1.0/(a*::log(b)), -1.0*::log(a)/(b*::log(b)));
     });
 }
 
 Node log10(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::log(n)/::log(10), 1.0/(n*::log(10)));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::log(n)/::log(10), 1.0/(n*::log(10)));
     });
 }
 
 Node ln(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::log(n), 1.0/::log(n));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::log(n), 1.0/::log(n));
     });
 }
 
 Node pow(const Node& x, const Node& base){
-    return Node::binary_operation(x, base, [](const double& a, const double& b){
+    return Node::dyadic_operation(x, base, [](const double& a, const double& b){
         if(a<=0){
-            return BinaryOperationResult(::pow(a,b), b*::pow(a,b-1), 0);
+            return DyadicOperationResult(::pow(a,b), b*::pow(a,b-1), 0);
         }
-        return BinaryOperationResult(::pow(a,b), b*::pow(a,b-1), ::log(a)*::pow(a,b));
+        return DyadicOperationResult(::pow(a,b), b*::pow(a,b-1), ::log(a)*::pow(a,b));
     });
 }
 
 Node exp(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::exp(n), ::exp(n));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::exp(n), ::exp(n));
     });
 }
 
 Node sqrt(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
-        return UnaryOperationResult(::sqrt(n), 1.0/(2*::sqrt(n)));
+    return Node::monadic_operation(x, [](const double& n){
+        return MonadicOperationResult(::sqrt(n), 1.0/(2*::sqrt(n)));
     });
 }
 
 Node abs(const Node& x){
-    return Node::unary_operation(x, [](const double& n){
+    return Node::monadic_operation(x, [](const double& n){
         int sign = n==0 ? 0 : n/::abs(n);
-        return UnaryOperationResult(::abs(n), sign);
+        return MonadicOperationResult(::abs(n), sign);
     });
 }
 
 Node min(const Node& left, const Node& right){
-    return Node::binary_operation(left, right, [](const double& a, const double& b){
+    return Node::dyadic_operation(left, right, [](const double& a, const double& b){
         if(a<b){
-            return BinaryOperationResult(a, 1, 0);
+            return DyadicOperationResult(a, 1, 0);
         }
         if(a>b){
-            return BinaryOperationResult(b, 0, 1);
+            return DyadicOperationResult(b, 0, 1);
         }
-        return BinaryOperationResult(a, 0, 0);
+        return DyadicOperationResult(a, 0, 0);
     });
 }
 
 Node max(const Node& left, const Node& right){
-    return Node::binary_operation(left, right, [](const double& a, const double& b){
+    return Node::dyadic_operation(left, right, [](const double& a, const double& b){
         if(a>b){
-            return BinaryOperationResult(a, 1, 0);
+            return DyadicOperationResult(a, 1, 0);
         }
         if(a<b){
-            return BinaryOperationResult(b, 0, 1);
+            return DyadicOperationResult(b, 0, 1);
         }
-        return BinaryOperationResult(a, 0, 0);
+        return DyadicOperationResult(a, 0, 0);
     });
 }
 
