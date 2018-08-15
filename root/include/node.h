@@ -56,7 +56,7 @@ class Node {
         friend Node atan(const Node& x);
 
         friend Node log(const Node& x, const Node& base);
-        friend Node log(const Node& x);
+        friend Node log10(const Node& x);
         friend Node ln(const Node& x);
 
         friend Node pow(const Node& x, const Node& p);
@@ -64,6 +64,8 @@ class Node {
         friend Node sqrt(const Node& x);
 
         friend Node abs(const Node& x);
+        friend Node min(const Node& l, const Node& r);
+        friend Node max(const Node& l, const Node& r);
 
         friend std::ostream& operator<<(std::ostream& os, const Node& node);
 };

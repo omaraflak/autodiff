@@ -193,7 +193,7 @@ Node log(const Node& x, const Node& base){
     });
 }
 
-Node log(const Node& x){
+Node log10(const Node& x){
     return Node::unary_operation(x, [](const Node& n){
         return UnaryOperationResult(::log(n.value)/::log(10), 1.0/(n.value*::log(10)));
     });
@@ -230,6 +230,30 @@ Node abs(const Node& x){
     return Node::unary_operation(x, [](const Node& n){
         int sign = n.value==0 ? 0 : n.value/::abs(n.value);
         return UnaryOperationResult(::abs(n.value), sign);
+    });
+}
+
+Node min(const Node& l, const Node& r){
+    return Node::binary_operation(l, r, [](const Node& a, const Node& b){
+        if(a.value<b.value){
+            return BinaryOperationResult(a.value, 1, 0);
+        }
+        if(a.value>b.value){
+            return BinaryOperationResult(b.value, 0, 1);
+        }
+        return BinaryOperationResult(a.value, 0, 0);
+    });
+}
+
+Node max(const Node& l, const Node& r){
+    return Node::binary_operation(l, r, [](const Node& a, const Node& b){
+        if(a.value>b.value){
+            return BinaryOperationResult(a.value, 1, 0);
+        }
+        if(a.value<b.value){
+            return BinaryOperationResult(b.value, 0, 1);
+        }
+        return BinaryOperationResult(a.value, 0, 0);
     });
 }
 
