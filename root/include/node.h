@@ -2,6 +2,7 @@
 #define NODE_H
 
 #include <cmath>
+#include <iostream>
 
 #include "graph.h"
 #include "bor.h"
