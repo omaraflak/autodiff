@@ -10,10 +10,6 @@ Node::Node(const Node& node){
     this->uid = node.uid;
 }
 
-long int Node::get_uid() const{
-    return this->uid;
-}
-
 double Node::gradient_recursive(Graph* graph, const long int& current_uid, const long int& stop_uid) const{
     if(current_uid==stop_uid){
         return 1.0;
