@@ -2,37 +2,37 @@ CXX = g++
 BIN = bin
 LIB = lib
 LIB_NAME = autodiff
-OBJS_GRADIENT_DESCENT = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/gradient_descent.o
-OBJS_ANN = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/ann.o
-OBJS_GRADIENT = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/gradient.o
-OBJS_SPEED = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/speed.o
-OBJS_SIMPLE = root/obj/graph.o root/obj/node.o root/obj/utils.o examples/obj/simple.o
+OBJS_GRADIENT_DESCENT = root/obj/node.o root/obj/graph.o examples/obj/gradient_descent.o
+OBJS_ANN = root/obj/node.o root/obj/graph.o examples/obj/ann.o
+OBJS_GRADIENT = root/obj/node.o root/obj/graph.o examples/obj/gradient.o
+OBJS_SPEED = root/obj/node.o root/obj/graph.o examples/obj/speed.o
+OBJS_SIMPLE = root/obj/node.o root/obj/graph.o examples/obj/simple.o
 
 all : gradient_descent ann gradient speed simple
 
-gradient_descent : $(BIN) examples/src/vectmath.h root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+gradient_descent : $(BIN) examples/src/vectmath.h root/include/bor.h root/include/uor.h
 	$(MAKE) -C examples obj obj/gradient_descent.o
-	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
+	$(MAKE) -C root obj obj/node.o obj/graph.o
 	$(CXX) -o $(BIN)/gradient_descent $(OBJS_GRADIENT_DESCENT) $(LIBS)
 
-ann : $(BIN) examples/src/vectmath.h root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+ann : $(BIN) examples/src/vectmath.h root/include/bor.h root/include/uor.h
 	$(MAKE) -C examples obj obj/ann.o
-	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
+	$(MAKE) -C root obj obj/node.o obj/graph.o
 	$(CXX) -o $(BIN)/ann $(OBJS_ANN) $(LIBS)
 
-gradient : $(BIN) examples/src/vectmath.h root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+gradient : $(BIN) examples/src/vectmath.h root/include/bor.h root/include/uor.h
 	$(MAKE) -C examples obj obj/gradient.o
-	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
+	$(MAKE) -C root obj obj/node.o obj/graph.o
 	$(CXX) -o $(BIN)/gradient $(OBJS_GRADIENT) $(LIBS)
 
-speed : $(BIN) root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+speed : $(BIN) examples/src/vectmath.h root/include/bor.h root/include/uor.h
 	$(MAKE) -C examples obj obj/speed.o
-	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
+	$(MAKE) -C root obj obj/node.o obj/graph.o
 	$(CXX) -o $(BIN)/speed $(OBJS_SPEED) $(LIBS)
 
-simple : $(BIN) root/include/edge.h root/include/binary_operation_result.h root/include/unary_operation_result.h
+simple : $(BIN) root/include/bor.h root/include/uor.h
 	$(MAKE) -C examples obj obj/simple.o
-	$(MAKE) -C root obj obj/graph.o obj/node.o obj/utils.o
+	$(MAKE) -C root obj obj/node.o obj/graph.o
 	$(CXX) -o $(BIN)/simple $(OBJS_SIMPLE) $(LIBS)
 
 $(BIN) :
@@ -47,7 +47,7 @@ clean :
 	if [ -d $(BIN) ]; then rm $(BIN) -r; fi
 
 install : $(LIB)
-	ar rcs $(LIB)/lib$(LIB_NAME).a root/obj/graph.o root/obj/node.o root/obj/utils.o
+	ar rcs $(LIB)/lib$(LIB_NAME).a root/obj/graph.o root/obj/node.o
 	if [ ! -d /usr/local/include/$(LIB_NAME) ]; then mkdir /usr/local/include/$(LIB_NAME) -r; fi
 	sudo cp $(LIB)/lib$(LIB_NAME).a /usr/local/lib
 	sudo cp root/include/*.h /usr/local/include/$(LIB_NAME)
