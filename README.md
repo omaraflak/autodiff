@@ -63,7 +63,7 @@ Graph::getInstance()->new_recording();
 * acos(const Node& x)
 * atan(const Node& x)
 
-### Hyperbolic
+### Hyperbolic
 
 * sinh(const Node& x)
 * cosh(const Node& x)
