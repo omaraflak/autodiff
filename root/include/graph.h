@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 #include <utility>
-#include <iostream>
 
 class Graph {
     private:
@@ -22,8 +21,6 @@ class Graph {
         bool has(const long int& uid) const;
 
         void new_recording();
-
-        friend std::ostream& operator<<(std::ostream& os, const Graph& graph);
 };
 
 #endif /* end of include guard: GRAPH_H */

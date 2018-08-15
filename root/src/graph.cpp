@@ -31,12 +31,3 @@ bool Graph::has(const long int& uid) const{
 void Graph::new_recording(){
     nodes.clear();
 }
-
-std::ostream& operator<<(std::ostream& os, const Graph& graph){
-    for(auto& pair : graph.nodes){
-        for(auto& p : pair.second){
-            os << "(" << pair.first << " -> " << p.second << ", weight=" << p.first << ")" << std::endl;
-        }
-    }
-    return os;
-}
