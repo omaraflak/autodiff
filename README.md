@@ -86,3 +86,25 @@ Graph::getInstance()->new_recording();
 * abs(const Node& x)
 * min(const Node& l, const Node& r)
 * max(const Node& l, const Node& r)
+
+## Define your own operation
+
+### Unary operations
+
+```c++
+Node multBy5(const Node& node){
+    return Node::unary_operation(node, [](const double& x){
+        return UnaryOperationResult(5*x, 5); // (value=5*x, d(multBy5)/dx=5)
+    });
+}
+```
+
+### Binary operations
+
+```c++
+Node multiply(const Node& left, const Node& right){
+    return Node::binary_operation(left, right, [](const double& l, const double& r){
+        return BinaryOperationResult(l*r, r, l); // (value=l*r, ∂(multiply)/∂l=r, ∂(multiply)/∂r=l)
+    });
+}
+```
