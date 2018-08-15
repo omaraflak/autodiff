@@ -8,15 +8,17 @@ Node function(std::vector<Node>& x){
 }
 
 int main(int argc, char const *argv[]) {
+    Graph* graph = Graph::getInstance();
+
     std::vector<Node> x = {50, 50};
     Node f;
 
     int epochs = 30;
     float learning_rate = 0.1;
-
     for(size_t i=0 ; i<epochs ; i++){
         f = function(x);
         x -= learning_rate*f.gradient(x);
+        graph->new_recording();
     }
 
     std::cout << "f = " << f << std::endl;
