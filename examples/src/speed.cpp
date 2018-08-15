@@ -4,7 +4,7 @@
 #include <ctime>
 #include <chrono>
 
-#include "vectmath.h"
+#include "../../root/include/vectmath.h"
 #include "../../root/include/node.h"
 
 template <class T>

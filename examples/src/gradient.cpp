@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "vectmath.h"
+#include "../../root/include/vectmath.h"
 #include "../../root/include/node.h"
 
 Node function(std::vector<Node> x){

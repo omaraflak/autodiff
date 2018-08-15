@@ -1,5 +1,5 @@
-#ifndef VECTMATH_H
-#define VECTMATH_H
+#ifndef VECTMATH
+#define VECTMATH
 
 #include <vector>
 #include <cassert>

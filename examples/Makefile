@@ -5,19 +5,19 @@ OBJS = $(ODIR)/gradient_descent.o $(ODIR)/ann.o $(ODIR)/gradient.o $(ODIR)/speed
 
 all : $(ODIR) $(OBJS) 
 
-$(ODIR)/gradient_descent.o : src/gradient_descent.cpp src/vectmath.h ../root/include/node.h 
+$(ODIR)/gradient_descent.o : src/gradient_descent.cpp ../root/include/vectmath.h ../root/include/node.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-$(ODIR)/ann.o : src/ann.cpp src/vectmath.h ../root/include/node.h 
+$(ODIR)/ann.o : src/ann.cpp ../root/include/vectmath.h ../root/include/node.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-$(ODIR)/gradient.o : src/gradient.cpp src/vectmath.h ../root/include/node.h 
+$(ODIR)/gradient.o : src/gradient.cpp ../root/include/vectmath.h ../root/include/node.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-$(ODIR)/speed.o : src/speed.cpp src/vectmath.h ../root/include/node.h 
+$(ODIR)/speed.o : src/speed.cpp ../root/include/vectmath.h ../root/include/node.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-$(ODIR)/simple.o : src/simple.cpp src/vectmath.h ../root/include/node.h 
+$(ODIR)/simple.o : src/simple.cpp ../root/include/node.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 $(ODIR) : 

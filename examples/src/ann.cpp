@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ctime>
 
-#include "vectmath.h"
+#include "../../root/include/vectmath.h"
 #include "../../root/include/node.h"
 
 typedef std::vector<Node> Vector;
