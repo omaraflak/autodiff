@@ -1,15 +1,13 @@
 #include <iostream>
 
 #include "vectmath.h"
-#include "../../root/include/graph.h"
+#include "../../root/include/node.h"
 
 Node function(std::vector<Node>& x){
     return pow(x[0], 2) + pow(x[1], 2); // x^2 + y^2
 }
 
 int main(int argc, char const *argv[]) {
-    Graph* graph = Graph::getInstance();
-
     std::vector<Node> x = {50, 50};
     Node f;
 
@@ -18,7 +16,7 @@ int main(int argc, char const *argv[]) {
 
     for(size_t i=0 ; i<epochs ; i++){
         f = function(x);
-        x -= learning_rate*graph->gradient(f, x);
+        x -= learning_rate*f.gradient(x);
     }
 
     std::cout << "f = " << f << std::endl;

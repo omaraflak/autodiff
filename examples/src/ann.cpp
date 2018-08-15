@@ -2,7 +2,7 @@
 #include <ctime>
 
 #include "vectmath.h"
-#include "../../root/include/graph.h"
+#include "../../root/include/node.h"
 
 typedef std::vector<Node> Vector;
 typedef std::vector<Vector> Matrix;
@@ -46,9 +46,9 @@ struct Layer {
         return output;
     }
 
-    void backward(Graph* graph, Node& loss, const float& learning_rate){
-        weights -= learning_rate*graph->gradient(loss, weights);
-        bias -= learning_rate*graph->gradient(loss, bias);
+    void backward(Node& loss, const float& learning_rate){
+        weights -= learning_rate*loss.gradient(weights);
+        bias -= learning_rate*loss.gradient(bias);
     }
 };
 
@@ -58,7 +58,7 @@ struct Network {
     Graph* graph;
 
     Network(){
-        this->graph = Graph::getInstance();
+        graph = Graph::getInstance();
     }
 
     void input_layer(int input_shape){
@@ -98,7 +98,7 @@ struct Network {
 
                 // update parameters
                 for(auto& lay : layers){
-                    lay.backward(graph, loss, learning_rate);
+                    lay.backward(loss, learning_rate);
                 }
 
                 graph->new_recording();

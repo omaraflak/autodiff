@@ -5,7 +5,7 @@
 #include <chrono>
 
 #include "vectmath.h"
-#include "../../root/include/graph.h"
+#include "../../root/include/node.h"
 
 template <class T>
 std::vector<std::vector<T> > get_random_matrix(const int& height, const int& width, T t){
@@ -20,8 +20,6 @@ std::vector<std::vector<T> > get_random_matrix(const int& height, const int& wid
 
 int main(int argc, char const *argv[]) {
     srand(time(0));
-
-    Graph* graph = Graph::getInstance();
 
     int size = 30;
     std::vector<std::vector<double> > a = get_random_matrix(size, size, double());
