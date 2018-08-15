@@ -24,8 +24,6 @@ class Node {
         Node(const double& value=0);
         Node(const Node& node);
 
-        long int get_uid() const;
-
         double gradient(const Node& node) const;
         std::vector<double> gradient(const std::vector<Node>& nodes) const;
         std::vector<std::vector<double> > gradient(const std::vector<std::vector<Node> >& nodes) const;
@@ -39,6 +37,12 @@ class Node {
         Node& operator-=(const Node& r);
         Node& operator*=(const Node& r);
         Node& operator/=(const Node& r);
+
+        friend bool operator==(const Node& l, const Node& r);
+        friend bool operator<(const Node& l, const Node& r);
+        friend bool operator>(const Node& l, const Node& r);
+        friend bool operator<=(const Node& l, const Node& r);
+        friend bool operator>=(const Node& l, const Node& r);
 
         friend Node sin(const Node& x);
         friend Node cos(const Node& x);
