@@ -17,7 +17,7 @@ $(ODIR)/gradient.o : src/gradient.cpp src/vectmath.h ../root/include/node.h
 $(ODIR)/speed.o : src/speed.cpp src/vectmath.h ../root/include/node.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-$(ODIR)/simple.o : src/simple.cpp ../root/include/node.h 
+$(ODIR)/simple.o : src/simple.cpp src/vectmath.h ../root/include/node.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 $(ODIR) : 
