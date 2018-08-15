@@ -48,7 +48,7 @@ clean :
 
 install : $(LIB)
 	ar rcs $(LIB)/lib$(LIB_NAME).a root/obj/graph.o root/obj/node.o
-	if [ ! -d /usr/local/include/$(LIB_NAME) ]; then mkdir /usr/local/include/$(LIB_NAME) -r; fi
+	if [ ! -d /usr/local/include/$(LIB_NAME) ]; then sudo mkdir /usr/local/include/$(LIB_NAME); fi
 	sudo cp $(LIB)/lib$(LIB_NAME).a /usr/local/lib
 	sudo cp root/include/*.h /usr/local/include/$(LIB_NAME)
 
