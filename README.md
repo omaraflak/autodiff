@@ -89,22 +89,50 @@ Graph::getInstance()->new_recording();
 
 ## Define your own operations
 
-### Unary operations
+If your calculations involve functions I didn't mention above, then you can write your own operations and provide their derivative.
+
+### Monadic operations
+
+<img src="https://latex.codecogs.com/gif.latex?\inline&space;f&space;:&space;R&space;\mapsto&space;R" title="f : R \mapsto R" />
 
 ```c++
 Node multBy5(const Node& node){
-    return Node::unary_operation(node, [](const double& x){
-        return UnaryOperationResult(5*x, 5); // (value=5*x, d(multBy5)/dx=5)
+    return Node::monadic_operation(node, [](const double& x){
+        return MonadicOperationResult(5*x, 5); // (value=5*x, d(multBy5)/dx=5)
     });
 }
 ```
 
-### Binary operations
+### Dyadic operations
+
+<img src="https://latex.codecogs.com/gif.latex?\inline&space;f&space;:&space;R^2&space;\mapsto&space;R" title="f : R^2 \mapsto R" />
 
 ```c++
 Node multiply(const Node& left, const Node& right){
-    return Node::binary_operation(left, right, [](const double& l, const double& r){
-        return BinaryOperationResult(l*r, r, l); // (value=l*r, ∂(multiply)/∂l=r, ∂(multiply)/∂r=l)
+    return Node::dyadic_operation(left, right, [](const double& l, const double& r){
+        return DyadicOperationResult(l*r, r, l); // (value=l*r, ∂(multiply)/∂l=r, ∂(multiply)/∂r=l)
+    });
+}
+```
+
+### Polyadic operations
+
+<img src="https://latex.codecogs.com/gif.latex?\inline&space;f&space;:&space;R^n&space;\mapsto&space;R" title="f : R^n \mapsto R" />
+
+```c++
+Node someRandomFunction(const std::vector<Node>& nodes){
+    return Node::polyadic_operation(nodes, [](const std::vector<double>& x){
+        double result=0;
+        for(const double& d : x){
+            result += exp(d);
+        }
+
+        std::vector<double> gradients(nodes.size());
+        for(size_t i=0 ; i<gradients.size() ; i++){
+            gradients[i] = exp(x[i]);
+        }
+
+        return PolyadicOperationResult(result, gradients);
     });
 }
 ```
