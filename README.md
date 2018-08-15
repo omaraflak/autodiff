@@ -91,6 +91,8 @@ Graph::getInstance()->new_recording();
 
 If your calculations involve functions I didn't mention above, then you can write your own operations and provide their derivative.
 
+Thus, neither of the examples below needs to be implemented this way, they use operations already defined (*,+,exp). There are just for the sake of example.
+
 ### Monadic operations
 
 <img src="https://latex.codecogs.com/gif.latex?\inline&space;f&space;:&space;R&space;\mapsto&space;R" title="f : R \mapsto R" />
