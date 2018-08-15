@@ -1,7 +1,7 @@
 CXX = g++
 ODIR = obj
 CXXFLAGS = -std=c++11 -O3
-OBJS = $(ODIR)/graph.o $(ODIR)/node.o $(ODIR)/utils.o 
+OBJS = $(ODIR)/graph.o $(ODIR)/node.o 
 
 all : $(ODIR) $(OBJS) 
 
@@ -9,9 +9,6 @@ $(ODIR)/graph.o : src/graph.cpp include/graph.h
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 $(ODIR)/node.o : src/node.cpp include/node.h 
-	$(CXX) -c $< -o $@ $(CXXFLAGS)
-
-$(ODIR)/utils.o : src/utils.cpp include/utils.h 
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 $(ODIR) : 

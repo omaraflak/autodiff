@@ -5,7 +5,7 @@ struct UnaryOperationResult {
     double value;
     double grad;
 
-    UnaryOperationResult(const double& value, const double& grad){
+    UnaryOperationResult(double value, double grad){
         this->value = value;
         this->grad = grad;
     }

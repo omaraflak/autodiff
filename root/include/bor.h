@@ -6,7 +6,7 @@ struct BinaryOperationResult {
     double left_grad;
     double right_grad;
 
-    BinaryOperationResult(const double& value, const double& left_grad, const double& right_grad){
+    BinaryOperationResult(double value, double left_grad, double right_grad){
         this->value = value;
         this->left_grad = left_grad;
         this->right_grad = right_grad;

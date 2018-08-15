@@ -1,41 +1,27 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include "node.h"
-#include "edge.h"
-
-#include <unordered_map>
-#include <exception>
+#include <map>
 #include <vector>
+#include <utility>
+#include <iostream>
 
-class Node;
 class Graph {
     private:
+        std::map<long int, std::vector<std::pair<double, long int> > > nodes;
         static Graph* instance;
-        std::unordered_map<unsigned long int, Node*> nodes;
-        std::unordered_map<unsigned long int, std::vector<Edge*> > edges;
-
         Graph();
-        ~Graph();
-
-        void clear_memory();
-        void delete_pointers();
-        double gradientRecursive(Node* node);
 
     public:
+        static long int uid_counter;
+        static long int uid();
         static Graph* getInstance();
-        static Graph* getInstanceNoCheck();
 
-        double gradient(const Node& out, const Node& in);
-        std::vector<double> gradient(const Node& out, const std::vector<Node>& in);
-        std::vector<std::vector<double> > gradient(const Node& out, const std::vector<std::vector<Node> >& in);
+        void connect(const long int& uid, const std::pair<double, long int>& edge);
+        std::vector<std::pair<double, long int> > get(const long int& uid) const;
+        bool has(const long int& uid) const;
 
         void new_recording();
-
-        bool has(const unsigned long int& uid) const;
-        Node* get(const unsigned long int& uid) const;
-        Node* create(const Node& node);
-        Edge* create(const Edge& edge);
 
         friend std::ostream& operator<<(std::ostream& os, const Graph& graph);
 };

@@ -1,52 +1,44 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include <iostream>
-#include <string>
 #include <cmath>
 
-#include "utils.h"
 #include "graph.h"
-#include "binary_operation_result.h"
-#include "unary_operation_result.h"
+#include "bor.h"
+#include "uor.h"
 
-class Graph;
 class Node {
     private:
         double value;
-        double gradient;
-        bool backprop;
-        unsigned long int uid;
+        long int uid;
 
-        template <typename BINOP>
-        static Node binaryOperation(const Node& l, const Node& r, const BINOP& fun);
+        template <typename Fun>
+        static Node unary_operation(const Node& n, const Fun& fun);
 
-        template <typename UNOP>
-        static Node unaryOperation(const Node& n, const UNOP& fun);
+        template <typename Fun>
+        static Node binary_operation(const Node& l, const Node& r, const Fun& fun);
+
+        double gradient_recursive(Graph* graph, const long int& current_uid, const long int& stop_uid) const;
 
     public:
-        Node();
-        Node(const double& value);
-        Node(const Node& node, const bool& copy_uid=false);
+        Node(const double& value=0);
+        Node(const Node& node);
 
-        double get_value() const;
-        double get_gradient() const;
-        bool did_backprop() const;
-        unsigned long int get_uid() const;
+        long int get_uid() const;
 
-        void set_value(const double& value);
-        void set_gradient(const double& gradient);
-        void set_backprop(const bool& backprop);
-
-        Node& operator+=(const Node& r);
-        Node& operator-=(const Node& r);
-        Node& operator*=(const Node& r);
-        Node& operator/=(const Node& r);
+        double gradient(const Node& node) const;
+        std::vector<double> gradient(const std::vector<Node>& nodes) const;
+        std::vector<std::vector<double> > gradient(const std::vector<std::vector<Node> >& nodes) const;
 
         friend Node operator+(const Node& l, const Node& r);
         friend Node operator-(const Node& l, const Node& r);
         friend Node operator*(const Node& l, const Node& r);
         friend Node operator/(const Node& l, const Node& r);
+
+        Node& operator+=(const Node& r);
+        Node& operator-=(const Node& r);
+        Node& operator*=(const Node& r);
+        Node& operator/=(const Node& r);
 
         friend Node sin(const Node& x);
         friend Node cos(const Node& x);
