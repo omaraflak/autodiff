@@ -87,7 +87,7 @@ Graph::getInstance()->new_recording();
 * min(const Node& l, const Node& r)
 * max(const Node& l, const Node& r)
 
-## Define your own operation
+## Define your own operations
 
 ### Unary operations
 
