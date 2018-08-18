@@ -41,7 +41,7 @@ int main(int argc, char const *argv[]) {
 Compile it :
 
 ```
-g++ main.cpp -o main -std=c++11 -lautodiff
+g++ main.cpp -o main -lautodiff
 ```
 
 # Clear the computational graph
